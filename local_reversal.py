@@ -76,7 +76,7 @@ def reversal_intersect(l, b, elln, bn, x0):
     float x0: distance to plane along x-axis in kpc
 
     returns:
-    float: intersection with reversal plane along line of sight (l,b)
+    float: distance (kpc) to intersection with along line of sight (l,b)
     '''
 
     A, B, C = get_ABC(elln, bn)
@@ -89,7 +89,7 @@ def reversal_intersect(l, b, elln, bn, x0):
 
 #########################################################################################################
 
-# simulated Faraday depth (np approximation)
+# simulated Faraday depth (no approximation)
 
 def B_line_of_sight(l, b, a, alpha, p, cosb, sinb, cosbeta, sinbeta):
     '''
@@ -212,7 +212,7 @@ def phi_sim_full(l, b,  R,  betaCW, betaCCW, x0, pitch = 11.5, elln = 168.5, bn 
 
 #########################################################################################################
 
-# simulated Faraday depths approximation, assuming alpha = 180 degrees (runs faster)
+# simulated Faraday depth approximations, assuming alpha = 180 degrees (runs faster)
 
 
 def M1screen(l, b,  R,  betaCW, betaCCW, x0, neB, pitch = 11.5, elln = 168.5, bn = -60):
