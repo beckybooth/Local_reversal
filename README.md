@@ -42,6 +42,10 @@ $C   = \sin b_n$
 
 Returns the line of sight component of magnetic field unit vector (assumes rhat is directed away)
 
+Clockwise field: a = +1
+
+Counterclockwise field a = -1
+
 $$B_\parallel = -a \ \cos b \ \cos \beta \ \sin(\ell + p - \alpha) + \sin b \ \sin\beta$$
 
 <hr>
