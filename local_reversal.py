@@ -110,7 +110,7 @@ def B_line_of_sight(l, b, a, alpha, p, cosb, sinb, cosbeta, sinbeta):
 
     return -a*cosb*cosbeta*np.sin(l + p - alpha) + sinb*sinbeta
 
-def intergrand(r, a, l, b, p, cosl, sinl, cosb, sinb, cosbeta, sinbeta):
+def integrand(r, a, l, b, p, cosl, sinl, cosb, sinb, cosbeta, sinbeta, neB):
     '''
     args:
     float r: heliocentric r
@@ -129,9 +129,6 @@ def intergrand(r, a, l, b, p, cosl, sinl, cosb, sinb, cosbeta, sinbeta):
     float: The integrand for the Faraday depth numerical integration 0.812*neB*Blos
     '''
 
-    # this can be replaced with user magnetic field strength and electron density model
-    neB = 0.04
-
     # calculate Galactocentric azimuthal angle
     xgc = r*cosb*cosl - rGC
     ygc = r*cosb*sinl
@@ -144,7 +141,7 @@ def intergrand(r, a, l, b, p, cosl, sinl, cosb, sinb, cosbeta, sinbeta):
 
     return  BLOS*neB
 
-def phi_sim_full(l, b,  R,  betaCW, betaCCW, x0, pitch = 11.5, elln = 168.5, bn = -60):
+def phi_sim_full(l, b,  R,  betaCW, betaCCW, x0, pitch = 11.5, elln = 168.5, bn = -60, neB = 0.04):
     '''
     args:
     float l: Galactic longitude in degrees
@@ -186,7 +183,7 @@ def phi_sim_full(l, b,  R,  betaCW, betaCCW, x0, pitch = 11.5, elln = 168.5, bn 
         cosbeta = np.cos(np.radians(betaCW))
         a = 1 # CW
 
-        return quad(intergrand, R, 0 , args = (a, l, b, pitch, cosl, sinl, cosb, sinb, cosbeta, sinbeta))[0] * 0.812*1000 
+        return quad(integrand, R, 0 , args = (a, l, b, pitch, cosl, sinl, cosb, sinb, cosbeta, sinbeta, neB))[0] * 0.812*1000 
         # (multiply by 1000 to convert kpc to pc)
 
     else:
@@ -197,13 +194,13 @@ def phi_sim_full(l, b,  R,  betaCW, betaCCW, x0, pitch = 11.5, elln = 168.5, bn 
         cosbeta = np.cos(np.radians(betaCW))
         a = 1 # CW
 
-        front = quad(intergrand, Rp, 0 , args = (a, l, b, pitch, cosl, sinl, cosb, sinb, cosbeta, sinbeta))[0] * 0.812*1000
+        front = quad(integrand, Rp, 0 , args = (a, l, b, pitch, cosl, sinl, cosb, sinb, cosbeta, sinbeta, neB))[0] * 0.812*1000
 
         sinbeta = np.sin(np.radians(betaCCW))
         cosbeta = np.cos(np.radians(betaCCW))
         a = -1 # CCW
 
-        back = quad(intergrand, R, Rp , args = (a, l, b, pitch,  cosl, sinl, cosb, sinb, cosbeta, sinbeta))[0] * 0.812*1000
+        back = quad(integrand, R, Rp , args = (a, l, b, pitch,  cosl, sinl, cosb, sinb, cosbeta, sinbeta, neB))[0] * 0.812*1000
         
         #print(a, front, back)
 
