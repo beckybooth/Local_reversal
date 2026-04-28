@@ -24,7 +24,7 @@ def long_lat(x, y, z):
     r = np.sqrt(x*x + y*y + z*z)
     
     long = np.degrees(np.arctan2(y,x))
-    lat = np.degrees(np.arctan2(z,r))
+    lat = np.degrees( np.arctan2( z , np.sqrt(x*x + y*y) ) )
     
     return long, lat
 
